@@ -96,7 +96,7 @@ public class AI {
         //int tie = 0;
 
         //Rozstrzygniecie
-        int maxIndex = 0;
+        int maxIndex = 1;
         int maxCount = countAppearance[0];
 
         for (int i = 0; i < countAppearance.length; i++) {
@@ -105,7 +105,6 @@ public class AI {
                 maxCount = countAppearance[i];
             }
         }
-
         return maxIndex;
     }
 }

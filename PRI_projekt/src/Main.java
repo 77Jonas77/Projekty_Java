@@ -9,12 +9,9 @@ public class Main {
         ArrayList<double[]> tr_data;
         ArrayList<double[]> test_data;
 
-        FileManager fileManager = new FileManager("/Users/jonaszsojka/IdeaProjects/PRI_projekt/iris_test.txt","/Users/jonaszsojka/IdeaProjects/PRI_projekt/iris_training.txt");
+        FileManager fileManager = new FileManager("/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_test.txt","/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_training.txt");
         tr_data = fileManager.chooseFileToLoad(InputDataType.TRAINING);
         test_data = fileManager.chooseFileToLoad(InputDataType.TEST);
-
-        AI aix = new AI(tr_data,test_data,2);
-        aix.categorize(new double[]{5.1,3.5,1.4,0.2});
 
         //wczytanie parametru k
         int k;
