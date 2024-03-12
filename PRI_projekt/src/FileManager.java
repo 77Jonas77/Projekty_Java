@@ -34,7 +34,6 @@ public class FileManager {
             //parsowanie danych
             loadedData.add(parseToRowData(parts));
         }
-//        ®
 
         scanner.close();
         return loadedData;

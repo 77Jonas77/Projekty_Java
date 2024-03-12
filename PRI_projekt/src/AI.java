@@ -46,19 +46,6 @@ public class AI {
             pairsOfEukl.setData_num(new double[]{Math.sqrt(eukl_val)});
             eukl_values.add(pairsOfEukl);
 
-//            System.out.println("Dane vector: " );
-//            for(int j=0;j<vector.getData_num().length;j++){
-//                System.out.print(vector.getData_num()[j] + " ");
-//            }
-//            System.out.print("======vector======");
-//
-//            System.out.print("Dane treningowe: " );
-//            for(int j=0;j<tr_line.getData_num().length;j++){
-//                System.out.print(tr_line.getData_num()[j] + " ");
-//            }
-//            System.out.print("======training======");
-//
-//            System.out.println(pairsOfEukl.getDecision());
         }
 
         //sortujemy arrayliste
@@ -76,27 +63,13 @@ public class AI {
             }
         });
 
-//        for(RowData rowData : eukl_values){
-//            System.out.println(rowData.toString());
-//        }
-
-//        for (double[] x : eukl_values) {
-//            System.out.println(x[0] + " " + x[1]);
-//        }
-
         //liczenie wystapien z k sasiadow
         //kNN - liczenie
         HashMap<String,Integer> countAppearance = new HashMap<>();
         for (int i = 0; i < k; i++) {
-//            countAppearance[(eukl_values.get(i).getDecision()-1]++;
             String k = eukl_values.get(i).getDecision();
             countAppearance.put(k, countAppearance.getOrDefault(k, 0) + 1);
-
         }
-
-//        for(Map.Entry<String, Integer> map : countAppearance.entrySet()){
-//            System.out.println(map);
-//        }
 
         //Rozstrzygniecie
         int maxCount = 0;
