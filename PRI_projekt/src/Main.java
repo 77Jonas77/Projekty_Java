@@ -10,14 +10,23 @@ public class Main {
         ArrayList<RowData> tr_data;
         ArrayList<RowData> test_data;
 
-        FileManager fileManager = new FileManager("/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_test.txt","/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_training.txt");
+        Scanner sc = new Scanner(System.in);
+
+        String filepath_training, filepath_test;
+
+        System.out.println("Give path to training file: ");
+        filepath_training = sc.next();
+
+        System.out.println("Give path to test file: ");
+        filepath_test = sc.next();
+
+        FileManager fileManager = new FileManager(filepath_test,filepath_training);
         tr_data = fileManager.chooseFileToLoad(InputDataType.TRAINING);
         test_data = fileManager.chooseFileToLoad(InputDataType.TEST);
 
         //wczytanie parametru k
         int k;
         System.out.println("Provide k value: ");
-        Scanner sc = new Scanner(System.in);
         k = sc.nextInt();
 
         //statystyki
