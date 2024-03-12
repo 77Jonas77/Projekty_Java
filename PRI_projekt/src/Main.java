@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) throws FileNotFoundException {
         //obsulga wczytania danych treningowych i testowych
         ArrayList<RowData> tr_data;
@@ -34,14 +35,19 @@ public class Main {
 
             //TAK -> klasyfikacja pojedynczego wektora
             if(decision.equalsIgnoreCase("yes")){
+                System.out.println("Input your vector of data: ");
+
                 String input_vector;
                 input_vector = sc.next();
                 input_vector += sc.nextLine();
 
                 String[] parts = input_vector.split("\\s+");
-                RowData data = fileManager.parseToRowData(parts);
-
-                ai.categorizeWithResponse(data);
+                if(parts.length!=tr_data.getFirst().getData_num().length+1){
+                    System.out.println("Invalid data provided!!!");
+                } else {
+                    RowData data = fileManager.parseToRowData(parts);
+                    ai.categorizeWithResponse(data);
+                }
             }else if(decision.equalsIgnoreCase("no")){
                 System.out.println("That's all for today. Hope you have a nice time!");
                 ifContinue = false;
