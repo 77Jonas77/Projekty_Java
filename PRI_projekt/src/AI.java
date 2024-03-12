@@ -1,13 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.*;
 
 public class AI {
-    private ArrayList<double[]> tr_data;
-    private ArrayList<double[]> test_data;
+    private ArrayList<RowData> tr_data;
+    private ArrayList<RowData> test_data;
     private int k;
 
-    public AI(ArrayList<double[]> tr_data, ArrayList<double[]> test_data, int k) {
+    public AI(ArrayList<RowData> tr_data, ArrayList<RowData> test_data, int k) {
         this.tr_data = tr_data;
         this.test_data = test_data;
         this.k = k;
@@ -17,60 +15,57 @@ public class AI {
     public void showStatistics() {
         int correct = 0;
         for(int i=0;i<test_data.size();i++){
-            double[] vector = test_data.get(i);
-            if(categorize(vector)==(int)vector[vector.length-1])
+            RowData vector = test_data.get(i);
+            if(categorize(vector).equals(vector.getDecision()))
                 correct++;
         }
         System.out.println("Classified correctly: " + correct + " Effectiveness: " + ((double)correct/test_data.size()) +"%");
     }
 
     //metoda odpowiadajaca za klasyfikacje wektora + zwraca komunikat
-    public void categorizeWithResponse(double[] vector) {
+    public void categorizeWithResponse(RowData vector) {
         System.out.println("AI prediction: ");
-        switch (categorize(vector)){
-            case 1 -> System.out.println("Iris-virginica");
-            case 2 -> System.out.println("Iris-versicolor");
-            case 3 -> System.out.println("Iris-setosa" );
-        }
+        System.out.println(categorize(vector));
     }
 
     //metoda odpowiadajaca za klasyfikacje wektora
-    public int categorize(double[] vector) {
-        ArrayList<double[]> eukl_values = new ArrayList<>();
-        int num_of_atryb = tr_data.getFirst().length;
+    public String categorize(RowData vector) {
+        ArrayList<RowData> eukl_values = new ArrayList<>();
 
         for (int i = 0; i < tr_data.size(); i++) {
-            double[] tr_line = tr_data.get(i);
-            double[] pairsOfEukl = new double[2]; // Deklaracja nowej tablicy dla każdej iteracji
-            pairsOfEukl[0] = tr_line[num_of_atryb - 1];
-            double eukl_val = 0;
+            RowData tr_line = tr_data.get(i);
+            RowData pairsOfEukl = new RowData();
 
-            for (int j = 0; j < vector.length - 1; j++) {
-                eukl_val += Math.pow(tr_line[j] - vector[j], 2);
+            pairsOfEukl.setDecision(tr_line.getDecision());
+
+            double eukl_val = 0;
+            for (int j = 0; j < vector.getData_num().length; j++) {
+                eukl_val += Math.pow(tr_line.getData_num()[j] - vector.getData_num()[j], 2);
             }
 
-            pairsOfEukl[1] = Math.sqrt(eukl_val);
+            pairsOfEukl.setData_num(new double[]{Math.sqrt(eukl_val)});
             eukl_values.add(pairsOfEukl);
-            //            System.out.println("Dane vector: " );
-//            for(int j=0;j<vector.length;j++){
-//                System.out.print(vector[j] + " ");
+
+//            System.out.println("Dane vector: " );
+//            for(int j=0;j<vector.getData_num().length;j++){
+//                System.out.print(vector.getData_num()[j] + " ");
 //            }
 //            System.out.print("======vector======");
 //
 //            System.out.print("Dane treningowe: " );
-//            for(int j=0;j<tr_line.length;j++){
-//                System.out.print(tr_line[j] + " ");
+//            for(int j=0;j<tr_line.getData_num().length;j++){
+//                System.out.print(tr_line.getData_num()[j] + " ");
 //            }
 //            System.out.print("======training======");
 //
-//            System.out.println(pairsOfEukl[1]);
+//            System.out.println(pairsOfEukl.getDecision());
         }
 
         //sortujemy arrayliste
         eukl_values.sort((o1, o2) -> {
             // Porównujemy wartości na pozycji indeksu 1 w obu tablicach
-            double eukl1 = o1[1];
-            double eukl2 = o2[1];
+            double eukl1 = o1.getData_num()[0];
+            double eukl2 = o2.getData_num()[0];
 
             if (eukl1 < eukl2) {
                 return -1; // Pierwszy element jest mniejszy
@@ -81,30 +76,39 @@ public class AI {
             }
         });
 
+//        for(RowData rowData : eukl_values){
+//            System.out.println(rowData.toString());
+//        }
+
 //        for (double[] x : eukl_values) {
 //            System.out.println(x[0] + " " + x[1]);
 //        }
 
         //liczenie wystapien z k sasiadow
         //kNN - liczenie
-        int[] countAppearance = new int[3];
+        HashMap<String,Integer> countAppearance = new HashMap<>();
         for (int i = 0; i < k; i++) {
-            countAppearance[(int)(eukl_values.get(i)[0])-1]++;
+//            countAppearance[(eukl_values.get(i).getDecision()-1]++;
+            String k = eukl_values.get(i).getDecision();
+            countAppearance.put(k, countAppearance.getOrDefault(k, 0) + 1);
+
         }
 
-        //todo: co w przypadku kiedy rowne?
-        //int tie = 0;
+//        for(Map.Entry<String, Integer> map : countAppearance.entrySet()){
+//            System.out.println(map);
+//        }
 
         //Rozstrzygniecie
-        int maxIndex = 1;
-        int maxCount = countAppearance[0];
+        int maxCount = 0;
+        String maxKey = tr_data.getFirst().getDecision();
 
-        for (int i = 0; i < countAppearance.length; i++) {
-            if (countAppearance[i] > maxCount) {
-                maxIndex = i+1;
-                maxCount = countAppearance[i];
+        for(Map.Entry<String, Integer> el : countAppearance.entrySet()){
+            if(el.getValue() > maxCount){
+                maxKey = el.getKey();
+                maxCount = el.getValue();
             }
         }
-        return maxIndex;
+
+        return maxKey;
     }
 }

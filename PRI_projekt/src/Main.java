@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         //obsulga wczytania danych treningowych i testowych
-        ArrayList<double[]> tr_data;
-        ArrayList<double[]> test_data;
+        ArrayList<RowData> tr_data;
+        ArrayList<RowData> test_data;
 
         FileManager fileManager = new FileManager("/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_test.txt","/Users/jonaszsojka/IdeaProjects/PRI_projekt_og/iris_training.txt");
         tr_data = fileManager.chooseFileToLoad(InputDataType.TRAINING);
@@ -39,7 +39,7 @@ public class Main {
                 input_vector += sc.nextLine();
 
                 String[] parts = input_vector.split("\\s+");
-                double[] data = fileManager.parseStringArrToDoubleArr(parts);
+                RowData data = fileManager.parseToRowData(parts);
 
                 ai.categorizeWithResponse(data);
             }else if(decision.equalsIgnoreCase("no")){
