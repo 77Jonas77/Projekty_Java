@@ -51,7 +51,7 @@ public class Main {
                 input_vector += sc.nextLine();
 
                 String[] parts = input_vector.split("\\s+");
-                if(parts.length!=tr_data.getFirst().getData_num().length+1){
+                if(parts.length!=tr_data.getFirst().getData_num().length){
                     System.out.println("Invalid data provided!!!");
                 } else {
                     RowData data = fileManager.parseToRowData(parts);

@@ -19,6 +19,7 @@ public class FileManager {
             case TEST -> loadData(test_fn);
         };
     }
+
     //metoda odpowiadajaca za wczytywanie danych z pliku
     public ArrayList<RowData> loadData(String filename) throws FileNotFoundException {
         ArrayList<RowData> loadedData = new ArrayList<>();
@@ -35,13 +36,36 @@ public class FileManager {
             loadedData.add(parseToRowData(parts));
         }
 
+        //Znalezienie max i min dla kazdej kolumny
+        double[] max = Arrays.copyOf(loadedData.getFirst().getData_num(), loadedData.getFirst().getData_num().length);
+        double[] min = Arrays.copyOf(loadedData.getFirst().getData_num(), loadedData.getFirst().getData_num().length);
+
+        for (int i = 1; i < loadedData.size(); i++) {
+            for (int j = 0; j < max.length; j++) {
+                if (max[j] < loadedData.get(i).getData_num()[j]) {
+                    max[j] = loadedData.get(i).getData_num()[j];
+                }
+
+                if (min[j] > loadedData.get(i).getData_num()[j]) {
+                    min[j] = loadedData.get(i).getData_num()[j];
+                }
+            }
+        }
+
+        //normalizacja wektorow danych (0-1)
+        for (int i = 0; i < loadedData.size(); i++) {
+            for (int j = 0; j < loadedData.get(i).getData_num().length; j++) {
+                loadedData.get(i).getData_num()[j] = (loadedData.get(i).getData_num()[j]) / (max[j] + min[j]);
+            }
+        }
+
         scanner.close();
         return loadedData;
     }
 
     //metoda odpowiadajaca za parsowanie el tab String na double
     public RowData parseToRowData(String[] stringArray) {
-        double[] doubleArray = new double[stringArray.length-1];
+        double[] doubleArray = new double[stringArray.length - 1];
         RowData rowData = new RowData();
 
         for (int i = 0; i < stringArray.length; i++) {
