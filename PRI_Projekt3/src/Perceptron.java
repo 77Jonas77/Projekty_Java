@@ -17,12 +17,31 @@ public class Perceptron {
 
     //vector classifier
     public String categorize(RowData vector) {
+//        System.out.println(vector.getDecision() + " fakt->" + language);
+//        System.out.println(Arrays.toString(vector.getData_num()));
+//        System.out.println(Arrays.toString(wagi));
         double wyjscie = 0;
-
+//        System.out.println(Arrays.toString(vector.getData_num()));
         for (int n = 0; n < test_data.getFirst().getData_num().length; n++) {
             wyjscie += wagi[n] * vector.getData_num()[n];
         }
-
+//        System.out.println(wyjscie + " " +test_data.size() + " " + vector.getData_num().length + " " + wagi.length);
+//
+//        System.out.println("Vector danych: ");
+//        for(int i= 0; i< vector.getData_num().length;i++){
+//            System.out.print(vector.getData_num()[i] + " ");
+//        }
+//        System.out.println();
+//        System.out.println("=====");
+//        System.out.println();
+//
+//        System.out.println("Wagi: ");
+//        for(int i= 0; i< wagi.length;i++){
+//            System.out.print(wagi[i] + " ");
+//        }
+//        System.out.println();
+//        System.out.println("=====");
+        //System.out.println(wyjscie);
         return wyjscie >= 0 ? language : "NOPE";
     }
 

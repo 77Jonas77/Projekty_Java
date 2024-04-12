@@ -46,6 +46,28 @@ public class FileManager {
         return languages;
     }
 
+    public RowData parseToRowDataFromText(String[] text) {
+        int[] count_alphabet = new int[26];
+        for (String word : text) {
+            for (int i = 0; i < word.length(); i++) {
+                if (Character.isLetter(word.charAt(i)) && word.toLowerCase().charAt(i) >= 'a' && word.toLowerCase().charAt(i) <= 'z') {
+                    char lowercaseChar = Character.toLowerCase(word.charAt(i));
+                    count_alphabet[lowercaseChar - 'a']++;
+                }
+            }
+        }
+        RowData rowData = new RowData();
+        double[] data_num = new double[27];
+
+        //save data to RowData
+        for (int i = 0; i < count_alphabet.length; i++) {
+            data_num[i] = count_alphabet[i];
+        }
+        data_num[data_num.length - 1] = -1;
+        rowData.setData_num(data_num);
+        return rowData;
+    }
+
     //Transforming data from indicated dir to data with vectors + decisions
     private void transformDataToVectorFile(Path folder, String FileToTransform) throws IOException {
         FileWriter fileWriter = new FileWriter(FileToTransform);
@@ -60,12 +82,9 @@ public class FileManager {
                     while (sc.hasNext()) {
                         String word = sc.next();
                         for (int i = 0; i < word.length(); i++) {
-                            if (Character.isLetter(word.charAt(i))) {
-                                if (word.toLowerCase().charAt(i) - 'a' > 24 || word.toLowerCase().charAt(i) - 'a' < 0) {
-                                    count_alphabet[25]++;
-                                } else {
-                                    count_alphabet[word.toLowerCase().charAt(i) - 'a']++;
-                                }
+                            if (Character.isLetter(word.charAt(i)) && word.toLowerCase().charAt(i) >= 'a' && word.toLowerCase().charAt(i) <= 'z') {
+                                char lowercaseChar = Character.toLowerCase(word.charAt(i));
+                                count_alphabet[lowercaseChar - 'a']++;
                             }
                         }
                     }
@@ -120,7 +139,8 @@ public class FileManager {
         //Normalization for vector of data (0-1)
         for (int i = 0; i < loadedData.size() - 1; i++) {
             for (int j = 0; j < loadedData.get(i).getData_num().length; j++) {
-                loadedData.get(i).getData_num()[j] = (loadedData.get(i).getData_num()[j]) / (max[j] + min[j]);
+                loadedData.get(i).getData_num()[j] = (loadedData.get(i).getData_num()[j]);
+                //loadedData.get(i).getData_num()[j] = (loadedData.get(i).getData_num()[j]) / (max[j] + min[j]);
             }
         }
 
@@ -144,6 +164,11 @@ public class FileManager {
             }
 
         }
+//        for (int x = 0; x < doubleArray.length; x++) {
+//            System.out.print(doubleArray[x] + " x");
+//        }
+//        System.out.println();
+//        System.out.println("============");
         rowData.setData_num(doubleArray);
         return rowData;
     }

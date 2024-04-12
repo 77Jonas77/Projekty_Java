@@ -33,18 +33,28 @@ public class NeuralNetwork {
             String dec = "";
             for (Perceptron p : network) {
                 String classified = p.categorize(vector);
-                if (!classified.equals("NONE")) {
+                if (!classified.equals("NOPE")) {
                     dec = classified;
                 }
-                //System.out.print(classified + " ");
-                if (dec.equals(vector.getDecision()))
-                    correct++;
             }
+            //System.out.print(classified + " ");
+            if (dec.equals(vector.getDecision()))
+                correct++;
 //            System.out.println("dec: " + vector.getDecision());
 //            System.out.println("========");
         }
+
         System.out.println("Classified correctly: " + correct + " Effectiveness: " + ((double) correct / test_data.size()) * 100 + "%");
     }
 
-
+    public String classifyWithResponse(RowData vec) {
+        String dec = "";
+        for (Perceptron p : network) {
+            String classified = p.categorize(vec);
+            if (!classified.equals("NOPE")) {
+                dec = classified;
+            }
+        }
+        return dec;
+    }
 }
