@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
-//todo: stworzyc pliki z danymi
 public class FileManager {
     private final String TEST_FILE = "/Users/jonaszsojka/Zadanka_Java/PRI_Projekt3/data-vectors/test-texts/test_vector_data.txt";
     private final String TRAINING_FILE = "/Users/jonaszsojka/Zadanka_Java/PRI_Projekt3/data-vectors/training-texts/training_vector_data.txt";

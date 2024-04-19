@@ -1,9 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class TextEntryWindow extends JFrame {
 
-    private JTextField textField;
+    private JTextArea textArea;
     private JButton submitButton;
 
     public TextEntryWindow(FileManager fileManager, NeuralNetwork neuralNetwork) {
@@ -15,13 +18,15 @@ public class TextEntryWindow extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        textField = new JTextField();
-        mainPanel.add(textField, BorderLayout.CENTER);
+        textArea = new JTextArea();
+        textArea.setLineWrap(true);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
-            String text = textField.getText();
-            String input_vector = text.toString().trim();
+            String text = textArea.getText();
+            String input_vector = text.trim();
 
             String[] text_splitted = input_vector.split(" ");
             RowData data = fileManager.parseToRowDataFromText(text_splitted);
