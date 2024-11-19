@@ -1,0 +1,17 @@
+CREATE TABLE samochody (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    marka VARCHAR(255) NOT NULL,
+    typ VARCHAR(255) NOT NULL,
+    rokProdukcji INT NOT NULL
+);
+
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Toyota', 'Sedan', 2010);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Honda', 'SUV', 2015);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Ford', 'Pickup', 2018);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Chevrolet', 'Coupe', 2020);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('BMW', 'Sedan', 2017);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Audi', 'Hatchback', 2019);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Mercedes-Benz', 'SUV', 2016);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Volkswagen', 'Convertible', 2014);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Nissan', 'Sedan', 2013);
+INSERT INTO samochody (marka, typ, rokProdukcji) VALUES ('Kia', 'SUV', 2021);
